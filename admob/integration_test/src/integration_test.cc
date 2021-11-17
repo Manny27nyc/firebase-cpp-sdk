@@ -575,9 +575,12 @@ TEST_F(FirebaseAdMobTest, TestInterstitialAdLoad) {
 
   firebase::admob::InterstitialAd* interstitial =
       new firebase::admob::InterstitialAd();
+  firebase::Future<void> initalize_future = interstitial->Initialize(app_framework::GetWindowContext());
 
-  WaitForCompletion(interstitial->Initialize(app_framework::GetWindowContext()),
-                    "Initialize");
+  WaitForCompletion(initalize_future,"Initialize");
+  LogDebug("Initialize future completed");
+  initalize_future.Release();
+  LogDebug("Future released");
 
   // When the InterstitialAd is initialized, load an ad.
   firebase::admob::AdRequest request = GetAdRequest();
